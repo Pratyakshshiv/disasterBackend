@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Disaster WebSocket Tester</title>
+</head>
+<body>
+  <h2>WebSocket Event Log</h2>
+  <ul id="log"></ul>
+
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script>
+    const socket = io('http://localhost:5000'); // Use your backend host
+
+    const log = (msg) => {
+      const li = document.createElement('li');
+      li.textContent = msg;
+      document.getElementById('log').appendChild(li);
+    };
+
+    socket.on('connect', () => {
+      log('🟢 Connected to WebSocket');
+    });
+
+    socket.on('disaster_updated', (data) => {
+      log('⚠️ Disaster Updated: ' + JSON.stringify(data));
+    });
+
+    socket.on('social_media_updated', (data) => {
+      log('📢 Social Media Updated: ' + JSON.stringify(data));
+    });
+
+    socket.on('resources_updated', (data) => {
+      log('🏥 Resources Updated: ' + JSON.stringify(data));
+    });
+  </script>
+</body>
+</html>
